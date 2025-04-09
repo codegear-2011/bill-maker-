@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e9f0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .logout-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 350px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #0072ff;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logout-container">
+    <h2>Are you sure you want to logout?</h2>
+    <div id="userInputSection" class="hidden">
+      <input type="text" id="userIdInput" placeholder="Enter your User ID">
+      <div class="error" id="errorBox"></div>
+    </div>
+    <button id="confirmBtn" onclick="showUserIdBox()">Yes</button>
+    <button class="hidden" id="finalLogoutBtn" onclick="finalLogout()">Logout</button>
+  </div>
+
+  <script>
+    function showUserIdBox() {
+      document.getElementById("userInputSection").classList.remove("hidden");
+      document.getElementById("finalLogoutBtn").classList.remove("hidden");
+      document.getElementById("confirmBtn").classList.add("hidden");
+    }
+
+    function finalLogout() {
+      const enteredId = document.getElementById("userIdInput").value.trim();
+      const errorBox = document.getElementById("errorBox");
+
+      if (enteredId === "Arin@2011") {
+        alert("You have been logged out successfully.");
+        window.location.href = "login.html"; // Replace with your login page
+      } else {
+        errorBox.textContent = "User ID does not match.";
+      }
+    }
+  </script>
+
+</body>
+</html>

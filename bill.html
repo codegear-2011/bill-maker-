@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Billing Invoice System</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      background-color: #0072ff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+
+    .section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    input, select {
+      padding: 10px;
+      margin: 10px 5px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    button {
+      background-color: #0072ff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #invoiceNumber {
+      font-weight: bold;
+      color: green;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>My Store</h2>
+  <div id="dateTime">--</div>
+</header>
+
+<div class="section">
+  <h3>Customer Info</h3>
+  <input type="text" id="customerName" placeholder="Customer Name">
+  <input type="text" id="customerPhone" placeholder="Mobile Number">
+</div>
+
+<div class="section">
+  <h3>Add Item</h3>
+  <select id="itemSelect">
+    <option value="">-- Select Item --</option>
+    <option value="Rice">Rice</option>
+    <option value="Sugar">Sugar</option>
+    <option value="Oil">Oil</option>
+    <option value="Others">Others</option>
+  </select>
+  <input type="text" id="customItem" placeholder="Or enter item name">
+  <input type="number" id="quantity" placeholder="Quantity">
+  <input type="number" id="amount" placeholder="Amount per item">
+  <button onclick="addToTable()">Add to Table</button>
+</div>
+
+<div class="section">
+  <h3>Invoice</h3>
+  <table id="invoiceTable">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Amount</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be added here -->
+    </tbody>
+  </table>
+  <button onclick="createInvoice()">Create Invoice</button>
+  <div id="invoiceNumber"></div>
+</div>
+
+<script>
+  setInterval(() => {
+    const now = new Date();
+    document.getElementById("dateTime").innerText = now.toLocaleString();
+  }, 1000);
+
+  function addToTable() {
+    const item = document.getElementById("itemSelect").value || document.getElementById("customItem").value;
+    const qty = parseFloat(document.getElementById("quantity").value);
+    const amt = parseFloat(document.getElementById("amount").value);
+
+    if (!item || isNaN(qty) || isNaN(amt)) {
+      alert("Please fill in all item details");
+      return;
+    }
+
+    const total = qty * amt;
+    const table = document.getElementById("invoiceTable").getElementsByTagName("tbody")[0];
+    const row = table.insertRow();
+    row.innerHTML = `<td>${item}</td><td>${qty}</td><td>${amt}</td><td>${total.toFixed(2)}</td>`;
+  }
+
+  function createInvoice() {
+    const invoiceID = Math.floor(Math.random() * 1000000);
+    const tableRows = document.querySelectorAll("#invoiceTable tbody tr");
+    const items = [];
+
+    tableRows.forEach(row => {
+      const cols = row.querySelectorAll("td");
+      items.push({
+        item: cols[0].innerText,
+        qty: cols[1].innerText,
+        amount: cols[2].innerText,
+        total: cols[3].innerText
+      });
+    });
+
+    const invoiceData = {
+      id: invoiceID,
+      customer: {
+        name: document.getElementById("customerName").value,
+        phone: document.getElementById("customerPhone").value
+      },
+      items: items,
+      date: new Date().toLocaleString()
+    };
+
+    localStorage.setItem("invoice_" + invoiceID, JSON.stringify(invoiceData));
+
+    document.getElementById("invoiceNumber").innerText = "Invoice ID: " + invoiceID;
+    alert("Invoice created successfully!");
+  }
+</script>
+
+</body>
+</html>

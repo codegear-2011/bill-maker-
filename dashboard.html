@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .content {
+      display: none;
+      margin-top: 40px;
+    }
+
+    button {
+      background: white;
+      color: #0072ff;
+      border: none;
+      padding: 12px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #e6f0ff;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="welcome">Loading your dashboard...</h2>
+  <div class="loader"></div>
+
+  <div class="content" id="mainContent">
+    <h2>Hello, Arin! What would you like to do?</h2>
+    <button onclick="addItem()">Add Item</button>
+    <button onclick="showBill()">Show Bill</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    // Simulate loading
+    setTimeout(() => {
+      document.querySelector('.loader').style.display = 'none';
+      document.getElementById('welcome').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }, 2000); // 2 second loading
+
+    function addItem() {
+      alert("Redirecting to Add Item page...");
+       window.location.href = 'bill.html';
+    }
+
+    function showBill() {
+      alert("Redirecting to Show Bill page...");
+       window.location.href = 'search.html';
+    }
+
+    function logout() {
+      alert("Redirecting to Logged out!");
+      window.location.href = 'logout.html';
+    }
+  </script>
+
+</body>
+</html>
