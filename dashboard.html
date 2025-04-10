@@ -2,88 +2,139 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #00c6ff, #0072ff);
+      background-color: #f4f6f8;
+    }
+    .sidebar {
+      width: 220px;
+      background-color: #1f2937;
+      height: 100vh;
       color: white;
-      text-align: center;
-      padding-top: 100px;
+      position: fixed;
+      padding: 20px;
     }
-
-    .loader {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid white;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
+    .sidebar h2 {
+      margin-top: 0;
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 15px 0;
     }
-
-    .content {
-      display: none;
-      margin-top: 40px;
+    .main {
+      margin-left: 240px;
+      padding: 20px;
     }
-
-    button {
-      background: white;
-      color: #0072ff;
-      border: none;
-      padding: 12px 20px;
-      margin: 10px;
-      border-radius: 8px;
-      font-size: 16px;
+    .navbar {
+      background-color: #ffffff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .profile {
+      position: relative;
       cursor: pointer;
-      transition: 0.3s;
     }
-
-    button:hover {
-      background-color: #e6f0ff;
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    canvas {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
-
-  <h2 id="welcome">Loading your dashboard...</h2>
-  <div class="loader"></div>
-
-  <div class="content" id="mainContent">
-    <h2>Hello, Arin! What would you like to do?</h2>
-    <button onclick="addItem()">Add Item</button>
-    <button onclick="showBill()">Show Bill</button>
-    <button onclick="logout()">Logout</button>
+  <div class="sidebar">
+    <h2>My Dashboard</h2>
+    <a href="#">Dashboard</a>
+    <a href="bill.html">Add Items</a>
+    <a href="search.html">Show Bill</a>
+  </div>
+  <div class="main">
+    <div class="navbar">
+      <h2>Welcome, User</h2>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://via.placeholder.com/40" alt="Profile" style="border-radius: 50%;">
+        <div class="dropdown" id="dropdownMenu">
+          <a href="#">My Profile</a>
+          <a href="logout.html">Logout</a>
+        </div>
+      </div>
+    </div>
+    <div class="charts">
+      <canvas id="barChart1" width="400" height="200"></canvas>
+      <canvas id="barChart2" width="400" height="200"></canvas>
+    </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Simulate loading
-    setTimeout(() => {
-      document.querySelector('.loader').style.display = 'none';
-      document.getElementById('welcome').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'block';
-    }, 2000); // 2 second loading
-
-    function addItem() {
-      alert("Redirecting to Add Item page...");
-       window.location.href = 'bill.html';
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
 
-    function showBill() {
-      alert("Redirecting to Show Bill page...");
-       window.location.href = 'search.html';
-    }
+    const ctx1 = document.getElementById('barChart1').getContext('2d');
+    const barChart1 = new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+          label: 'Sales',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: '#3b82f6'
+        }]
+      }
+    });
 
-    function logout() {
-      alert("Redirecting to Logged out!");
-      window.location.href = 'logout.html';
-    }
+    const ctx2 = document.getElementById('barChart2').getContext('2d');
+    const barChart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        datasets: [{
+          label: 'Revenue',
+          data: [8, 15, 6, 10, 4],
+          backgroundColor: '#10b981'
+        }]
+      }
+    });
   </script>
-
 </body>
-</html>
+        </html>
+  
+
+    
